@@ -4,8 +4,9 @@ import 'package:flutter_app_one/pantalla_personaje.dart';
 void main() {
   runApp(const Aplicacion());
 
-  print("hola qlq");
+  print("Entro al Main");
 }
+
 class Aplicacion extends StatelessWidget {
   const Aplicacion({super.key});
   @override
@@ -14,10 +15,10 @@ class Aplicacion extends StatelessWidget {
       title: 'Game of Thrones',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color.fromARGB(255, 183, 79, 58)),
+          seedColor: const Color.fromARGB(255, 219, 82, 159)),
         useMaterial3: true,
       ),
-      home: const PantallaPersonaje(title: "hola que tal"),
+      home: const PantallaPersonaje(title: "Personajes"),
     );
   }
 }
