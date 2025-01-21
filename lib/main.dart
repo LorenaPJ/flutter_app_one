@@ -15,7 +15,7 @@ class Aplicacion extends StatelessWidget {
       title: 'Game of Thrones',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color.fromARGB(255, 219, 82, 159)),
+          seedColor: const Color.fromARGB(255, 185, 49, 126)),
         useMaterial3: true,
       ),
       home: const PantallaPersonaje(title: "Personajes"),

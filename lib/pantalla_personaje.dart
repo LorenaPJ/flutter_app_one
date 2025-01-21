@@ -33,8 +33,11 @@ class _PantallaPersonajeState extends State<PantallaPersonaje> {
     if (response.statusCode == 200) {
       print("Entro al if de descargarPersonaje");
       final json = response.body;
+      print(json);
+    
       Personaje personaje = Personaje.fromJson(jsonDecode(json));
-      textoPersonaje = "${personaje.nombre} \n\n ${personaje.genero}\n\n ${personaje.cultura}\n\n ${personaje.nacido}\n\n ${personaje.titulos}";
+      textoPersonaje = "${personaje.nombre} \n\n ${personaje.genero}\n\n ${personaje.cultura}\n\n ${personaje.nacido}";
+      print(textoPersonaje);
     } else {
       textoPersonaje = "Error al cargar el personaje... ";
     }
