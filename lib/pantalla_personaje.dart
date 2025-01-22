@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_app_one/pantalla_lista_personajes.dart';
 
 import 'package:flutter_app_one/personaje.dart';
 
@@ -45,15 +46,45 @@ class _PantallaPersonajeState extends State<PantallaPersonaje> {
     setState(() {}); // Actualiza la Interfaz de Usuario
   }
 
-    @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-          children:[ 
-              Text(textoPersonaje,
-              style: const TextStyle(fontSize: 30, color: Colors.deepOrange)),
-          ]
-      ),
-    );
+  void moatrarListaPersonajes() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const PantallaListaPersonajes(title: 'AAAAA',)));
   }
+
+  @override
+Widget build(BuildContext context) {
+  return Scaffold(
+    body: Column(
+      crossAxisAlignment: CrossAxisAlignment.center, // Alinea horizontalmente los widgets
+      mainAxisAlignment: MainAxisAlignment.start,   // Controla la alineación vertical
+      children: [
+        const SizedBox(height: 20), 
+        const Center(
+          child: Text(
+            "Personajes",
+            style: TextStyle(
+              fontSize: 45,
+              color: Color.fromARGB(255, 0, 0, 0),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(30),
+          child: textoPersonaje.isEmpty
+              ? const CircularProgressIndicator()
+              : Text(
+                  textoPersonaje,
+                  style: const TextStyle(
+                    fontSize: 30,
+                    color: Color.fromARGB(255, 173, 43, 147),
+                  ),
+                ),
+        ),
+      TextButton(onPressed: moatrarListaPersonajes, child: const Text("Lista de Personajes"))
+      ],
+    ),
+  );
+}
+
+
 }
