@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_app_one/personaje.dart';
 
+//import 'package:flutter_app_one/pantalla_personaje.dart';
+
 import 'package:http/http.dart' as http;
 
 class PantallaListaPersonajes extends StatefulWidget {
@@ -22,6 +24,10 @@ class _PantallaListaPersonajesState extends State<PantallaListaPersonajes> {
     print("entra al void d lista_personajes");
     super.initState();
   }
+
+  /*
+    Aquí descargamos los personajes de la API 
+  */
   void descargarPersonajes() async {
 
     print("Entro a descargarPersonaje");
@@ -35,7 +41,7 @@ class _PantallaListaPersonajesState extends State<PantallaListaPersonajes> {
       print(json);
     
       Personaje personaje = Personaje.fromJson(jsonDecode(json));
-      textoPersonaje = "${personaje.nombre} \n\n ${personaje.genero}\n\n ${personaje.cultura}\n\n ${personaje.nacido}";
+      textoPersonaje = " Nombre: ${personaje.nombre} \n\n Género: ${personaje.genero}\n\n Cultura: ${personaje.cultura}\n\n Fecha de nacimiento:  ${personaje.nacido}";
       print(textoPersonaje);
     } else {
       textoPersonaje = "Error al cargar el personaje... ";
