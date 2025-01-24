@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 
@@ -27,6 +28,11 @@ class _PantallaPersonajeState extends State<PantallaPersonaje> {
       super.initState();
     }
 
+  int randomNumber(){
+     int numero = Random().nextInt(2135);
+   
+    return numero;
+  }
   /*
       Aquí descargamos los personajes de la API 
   */
@@ -34,7 +40,7 @@ class _PantallaPersonajeState extends State<PantallaPersonaje> {
 
       print("Entro a descargarPersonaje");
 
-      final url = Uri.parse("https://anapioficeandfire.com/api/characters/583");
+      final url = Uri.parse("https://anapioficeandfire.com/api/characters/${randomNumber()}");
       final response = await http.get(url);
       print(response.statusCode);
       if (response.statusCode == 200) {
@@ -75,6 +81,7 @@ class _PantallaPersonajeState extends State<PantallaPersonaje> {
         crossAxisAlignment: CrossAxisAlignment.center, // Alinea horizontalmente los widgets
         mainAxisAlignment: MainAxisAlignment.start,   // Controla la alineación vertical
         children: [
+          const Divider(height: 75),
           const SizedBox(height: 20), 
           const Center(
             child: Text(
@@ -97,8 +104,19 @@ class _PantallaPersonajeState extends State<PantallaPersonaje> {
                     ),
                   ),
           ),
-        TextButton(onPressed: moatrarListaPersonajes, child: const Text("Lista de Personajes")),
-        TextButton(onPressed: moatrarListaFavoritos, child: const Text("Lista de Favoritos"))
+          ElevatedButton(onPressed: (){
+            print("Boton de lista de personajes presionado");
+            moatrarListaPersonajes();
+
+          }, child: const Text("Lista de Personajes")),
+          const Padding(padding: EdgeInsets.all(20)),
+          ElevatedButton(onPressed: (){
+            print("Boton de lista de personajes favoritos presionado");
+            moatrarListaFavoritos();
+
+          }, child: const Text("Lista de Favoritos"))
+            
+            //TextButton(onPressed: moatrarListaFavoritos, child: const Text("Lista de Favoritos"))
         ],
       ),
     );
