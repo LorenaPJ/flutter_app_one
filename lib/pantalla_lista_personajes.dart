@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_one/ficha_personaje.dart';
 import 'dart:convert';
+import 'package:flutter_app_one/ficha_personaje.dart';
 import 'package:flutter_app_one/personaje.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter_app_one/pantalla_personajes_favoritos.dart';
+import 'package:http/http.dart' as http;
 
 class PantallaListaPersonajes extends StatefulWidget {
-  const PantallaListaPersonajes({super.key, required String title});
+ PantallaListaPersonajes({super.key, required String title});
+  
+  // Cambié 'personajesFavoritos' a ser una propiedad en este widget
+  final List<Personaje> personajesFavoritos = [];
 
   @override
   State<PantallaListaPersonajes> createState() => _PantallaListaPersonajesState();
 }
 
 class _PantallaListaPersonajesState extends State<PantallaListaPersonajes> {
-  List<Personaje> arrayPersonajes = [];
-  final List<Personaje> personajesFavoritos = []; // Lista de favoritos
 
+  List<Personaje> arrayPersonajes = [];
   bool cargando = true;
 
   @override
@@ -24,6 +26,7 @@ class _PantallaListaPersonajesState extends State<PantallaListaPersonajes> {
     descargarPersonajes();
   }
 
+  // Descargar personajes de la API
   void descargarPersonajes() async {
     final url = Uri.parse("https://anapioficeandfire.com/api/characters?page=1&pageSize=50");
 
@@ -50,10 +53,11 @@ class _PantallaListaPersonajesState extends State<PantallaListaPersonajes> {
     }
   }
 
+  // Agregar personaje a favoritos
   void agregarFavoritos(Personaje personaje) {
-    if (!personajesFavoritos.contains(personaje)) {
+    if (!widget.personajesFavoritos.contains(personaje)) {
       setState(() {
-        personajesFavoritos.add(personaje);
+        widget.personajesFavoritos.add(personaje);
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -67,50 +71,38 @@ class _PantallaListaPersonajesState extends State<PantallaListaPersonajes> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Lista de personajes'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.favorite),
-            onPressed: () {
-              // Navegar a la pantalla de favoritos pasando la lista
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PantallaPersonajesFavoritos(personajesFavoritos: personajesFavoritos, title: '',),
-                ),
-              );
-            },
-          ),
-        ],
       ),
-      body: Center(
-        child: ListView.separated(
-          itemCount: arrayPersonajes.length,
-          separatorBuilder: (context, index) {
-            return const Divider(color: Colors.deepPurple);
-          },
-          itemBuilder: (context, index) {
-            final personajeElegido = arrayPersonajes[index];
-            return ListTile(
-              title: Text(personajeElegido.nombre),
-              trailing: IconButton(
-                icon: Icon(personajesFavoritos.contains(personajeElegido)
-                    ? Icons.favorite
-                    : Icons.favorite_border),
-                onPressed: () => agregarFavoritos(personajeElegido),
-              ),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => PantallaFichaDelPersonaje(character: personajeElegido),
+      body: cargando
+          ? const Center(child: CircularProgressIndicator())
+          : ListView.separated(
+              itemCount: arrayPersonajes.length,
+              separatorBuilder: (context, index) {
+                return const Divider(color: Colors.deepPurple);
+              },
+              itemBuilder: (context, index) {
+                final personajeElegido = arrayPersonajes[index];
+                final esFavorito = widget.personajesFavoritos.contains(personajeElegido);
+
+                return ListTile(
+                  title: Text(personajeElegido.nombre),
+                  trailing: IconButton(
+                    icon: Icon(
+                      esFavorito ? Icons.favorite : Icons.favorite_border,
+                      color: esFavorito ? Colors.red : null,
+                    ),
+                    onPressed: () => agregarFavoritos(personajeElegido),
                   ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PantallaFichaDelPersonaje(character: personajeElegido),
+                      ),
+                    );
+                  },
                 );
               },
-            );
-          },
-        ),
-      ),
+            ),
     );
   }
 }
-
