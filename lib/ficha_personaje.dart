@@ -12,18 +12,20 @@ class PantallaFichaDelPersonaje extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Información Personaje'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center, // Alinea horizontalmente los widgets
-          children: [
-            Text('Nombre:  ${character.nombre}', style: const TextStyle(fontSize: 15)),
-            Text('Género:  ${character.genero}', style: const TextStyle(fontSize: 15)),
-            Text('Cultura:  ${character.cultura}', style: const TextStyle(fontSize: 15)),
-            Text('Nacido:  ${character.nacido}', style: const TextStyle(fontSize: 15)),
-          ],
+     body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center, // Centra verticalmente
+            crossAxisAlignment: CrossAxisAlignment.center, // Centra horizontalmente
+            children: [
+              Text('Nombre:  ${character.nombre}', style: const TextStyle(fontSize: 20)),
+              Text('Género:  ${character.genero}', style: const TextStyle(fontSize: 20)),
+              Text('Cultura:  ${character.cultura}', style: const TextStyle(fontSize: 20)),
+              Text('Nacido:  ${character.nacido}', style: const TextStyle(fontSize: 20)),
+            ],
+          ),
         ),
-      ),
-    );
+    ));
   }
 }

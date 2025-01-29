@@ -76,7 +76,7 @@ class _PantallaPersonajeState extends State<PantallaPersonaje> {
   */
     void mostrarListaFavoritos() {
       Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => const PantallaPersonajesFavoritos(title: '',)));
+          .push(MaterialPageRoute(builder: (context) => const PantallaPersonajesFavoritos(title: '', personajesFavoritos: [],)));
     }
 
     @override
