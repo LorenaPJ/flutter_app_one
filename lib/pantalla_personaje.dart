@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -28,11 +29,15 @@ class _PantallaPersonajeState extends State<PantallaPersonaje> {
       super.initState();
     }
 
+  /*
+    Randomizamos los personajes para mostrar uno nuevo en la pantalla d inicio cada vez q se refresca la página.
+  */
   int randomNumber(){
      int numero = Random().nextInt(2135);
    
     return numero;
   }
+  
   /*
       Aquí descargamos los personajes de la API 
   */
@@ -46,10 +51,10 @@ class _PantallaPersonajeState extends State<PantallaPersonaje> {
       if (response.statusCode == 200) {
         print("Entro al if de descargarPersonaje");
         final json = response.body;
-        print(json);
+        //print(json);
       
         Personaje personaje = Personaje.fromJson(jsonDecode(json));
-        textoPersonaje = " Nombre: ${personaje.nombre} \n\n Género: ${personaje.genero}\n\n Cultura: ${personaje.cultura}\n\n Fecha de nacimiento:  ${personaje.nacido}";
+        textoPersonaje = " Nombre: ${personaje.nombre} \n Género: ${personaje.genero}\n Cultura: ${personaje.cultura}\n Fecha de nacimiento:  ${personaje.nacido}";
         print(textoPersonaje);
       } else {
         textoPersonaje = "Error al cargar el personaje... ";
@@ -61,7 +66,7 @@ class _PantallaPersonajeState extends State<PantallaPersonaje> {
   /*
     Navigator que nos lleva a la pantalla de Lista de Personajes.
   */
-    void moatrarListaPersonajes() {
+    void mostrarListaPersonajes() {
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => const PantallaListaPersonajes(title: 'AAAAA',)));
     }
@@ -69,56 +74,56 @@ class _PantallaPersonajeState extends State<PantallaPersonaje> {
     /*
     Navigator que nos lleva a la pantalla en la que tenemos nuestra lISTA DE personajes Favoritos.
   */
-    void moatrarListaFavoritos() {
+    void mostrarListaFavoritos() {
       Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => const PantallaPersonajesFavoritos(title: 'EEEEEE',)));
+          .push(MaterialPageRoute(builder: (context) => const PantallaPersonajesFavoritos(title: '',)));
     }
 
     @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center, // Alinea horizontalmente los widgets
-        mainAxisAlignment: MainAxisAlignment.start,   // Controla la alineación vertical
-        children: [
-          const Divider(height: 75),
-          const SizedBox(height: 20), 
-          const Center(
-            child: Text(
-              "Personajes de Juego de Tronos",
-              style: TextStyle(
-                fontSize: 45,
-                color: Color.fromARGB(255, 0, 0, 0),
+      appBar: AppBar(
+          title: const Text('Personajes de Juegos de tronos'),
+          backgroundColor: const Color.fromARGB(255, 173, 124, 217),
+        ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.center, // Alinea horizontalmente los widgets
+          mainAxisAlignment: MainAxisAlignment.start,   // Controla la alineación vertical
+          children: [
+            const Center(
+              child: Text(
+                "Personajes de Juego de Tronos",
+                style: TextStyle(
+                  fontSize: 45,
+                  color: Color.fromARGB(255, 0, 0, 0),
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(30),
-            child: textoPersonaje.isEmpty
-                ? const CircularProgressIndicator()
-                : Text(
-                    textoPersonaje,
-                    style: const TextStyle(
-                      fontSize: 30,
-                      color: Color.fromARGB(255, 173, 43, 147),
+            Padding(
+              padding: const EdgeInsets.all(30),
+              child: textoPersonaje.isEmpty
+                  ? const CircularProgressIndicator()
+                  : Text(
+                      textoPersonaje,
+                      style: const TextStyle(
+                        fontSize: 30,
+                        color: Color.fromARGB(255, 173, 43, 147),
+                      ),
                     ),
-                  ),
-          ),
-          ElevatedButton(onPressed: (){
-            print("Boton de lista de personajes presionado");
-            moatrarListaPersonajes();
+            ),
+            ElevatedButton(onPressed: (){
+              print("Boton de lista de personajes presionado");
+              mostrarListaPersonajes();
 
-          }, child: const Text("Lista de Personajes")),
-          const Padding(padding: EdgeInsets.all(20)),
-          ElevatedButton(onPressed: (){
-            print("Boton de lista de personajes favoritos presionado");
-            moatrarListaFavoritos();
-
-          }, child: const Text("Lista de Favoritos"))
+            }, child: const Text("Lista de Personajes")),
+            const Padding(padding: EdgeInsets.all(20)),
             
-            //TextButton(onPressed: moatrarListaFavoritos, child: const Text("Lista de Favoritos"))
-        ],
-      ),
+            ElevatedButton(onPressed: (){
+              print("Boton de lista de personajes favoritos presionado");
+              mostrarListaFavoritos();
+            }, child: const Text("Lista de Favoritos"))
+          ],
+        ),
     );
   }
 }
