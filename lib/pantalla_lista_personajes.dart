@@ -6,10 +6,7 @@ import 'package:flutter_app_one/pantalla_personajes_favoritos.dart';
 import 'package:http/http.dart' as http;
 
 class PantallaListaPersonajes extends StatefulWidget {
- PantallaListaPersonajes({super.key, required String title});
-  
-  // Cambié 'personajesFavoritos' a ser una propiedad en este widget
-  final List<Personaje> personajesFavoritos = [];
+  const PantallaListaPersonajes({super.key, required String title});
 
   @override
   State<PantallaListaPersonajes> createState() => _PantallaListaPersonajesState();
@@ -17,7 +14,10 @@ class PantallaListaPersonajes extends StatefulWidget {
 
 class _PantallaListaPersonajesState extends State<PantallaListaPersonajes> {
 
-  List<Personaje> arrayPersonajes = [];
+  List<Personaje> arrayPersonajes = []; //Array vacio para llenarlo con personajes.
+
+  List<Personaje> personajesFavoritos = []; // Lista de favoritos.
+
   bool cargando = true;
 
   @override
@@ -26,7 +26,9 @@ class _PantallaListaPersonajesState extends State<PantallaListaPersonajes> {
     descargarPersonajes();
   }
 
-  // Descargar personajes de la API
+  /*
+   Función para descargar personajes de la API.
+   */
   void descargarPersonajes() async {
     final url = Uri.parse("https://anapioficeandfire.com/api/characters?page=1&pageSize=50");
 
@@ -53,15 +55,17 @@ class _PantallaListaPersonajesState extends State<PantallaListaPersonajes> {
     }
   }
 
-  // Agregar personaje a favoritos
+  /*
+   Función para agregar a favoritos.
+   */
   void agregarFavoritos(Personaje personaje) {
-    if (!widget.personajesFavoritos.contains(personaje)) {
+    if (!personajesFavoritos.contains(personaje)) {
       setState(() {
-        widget.personajesFavoritos.add(personaje);
+        personajesFavoritos.add(personaje);
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('${personaje.nombre} añadido a favoritos')),
+        SnackBar(content: Text('${personaje.nombre} añadido a favoritos <3')),
       );
     }
   }
@@ -71,25 +75,40 @@ class _PantallaListaPersonajesState extends State<PantallaListaPersonajes> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Lista de personajes'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.favorite),
+            onPressed: () async {
+              // Navegar a favoritos y esperar el resultado
+              final result = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PantallaPersonajesFavoritos(personajesFavoritos: personajesFavoritos, title: '',),
+                ),
+              );
+
+              // Si la lista de favoritos cambia, actualiza la lista
+              if (result != null && result is List<Personaje>) {
+                setState(() {
+                  personajesFavoritos = result;
+                });
+              }
+            },
+          ),
+        ],
       ),
       body: cargando
           ? const Center(child: CircularProgressIndicator())
           : ListView.separated(
               itemCount: arrayPersonajes.length,
-              separatorBuilder: (context, index) {
-                return const Divider(color: Colors.deepPurple);
-              },
+              separatorBuilder: (context, index) => const Divider(color: Colors.deepPurple),
               itemBuilder: (context, index) {
                 final personajeElegido = arrayPersonajes[index];
-                final esFavorito = widget.personajesFavoritos.contains(personajeElegido);
-
+                final esFavorito = personajesFavoritos.contains(personajeElegido);
                 return ListTile(
                   title: Text(personajeElegido.nombre),
                   trailing: IconButton(
-                    icon: Icon(
-                      esFavorito ? Icons.favorite : Icons.favorite_border,
-                      color: esFavorito ? Colors.red : null,
-                    ),
+                    icon: Icon(esFavorito ? Icons.favorite : Icons.favorite_border, color: esFavorito ? Colors.red : null),
                     onPressed: () => agregarFavoritos(personajeElegido),
                   ),
                   onTap: () {

@@ -68,7 +68,7 @@ class _PantallaPersonajeState extends State<PantallaPersonaje> {
   */
     void mostrarListaPersonajes() {
       Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) =>  PantallaListaPersonajes(title: 'AAAAA',)));
+          .push(MaterialPageRoute(builder: (context) => const PantallaListaPersonajes(title: 'AAAAA',)));
     }
 
     /*
@@ -76,7 +76,7 @@ class _PantallaPersonajeState extends State<PantallaPersonaje> {
   */
     void mostrarListaFavoritos() {
       Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => const PantallaPersonajesFavoritos(title: '',)));
+          .push(MaterialPageRoute(builder: (context) => const PantallaPersonajesFavoritos(title: '', personajesFavoritos: [],)));
     }
 
     @override
