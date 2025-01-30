@@ -3,8 +3,6 @@ import 'package:flutter_app_one/pantalla_personaje.dart';
 
 void main() {
   runApp(const Aplicacion());
-
-  print("Entro al Main");
 }
 
 class Aplicacion extends StatelessWidget {

@@ -4,10 +4,12 @@ import 'package:flutter_app_one/ficha_personaje.dart';
 
 import 'package:flutter_app_one/personaje.dart';
 
-class PantallaPersonajesFavoritos extends StatefulWidget {
-  final List<Personaje> personajesFavoritos;
+import 'variables_globales.dart';
 
-  const PantallaPersonajesFavoritos({super.key, required this.personajesFavoritos, required String title});
+class PantallaPersonajesFavoritos extends StatefulWidget {
+  
+
+  const PantallaPersonajesFavoritos({super.key, required String title});
 
   @override
   State<PantallaPersonajesFavoritos> createState() => _PantallaPersonajesFavoritosState();
@@ -20,14 +22,14 @@ class _PantallaPersonajesFavoritosState extends State<PantallaPersonajesFavorito
       appBar: AppBar(
         title: const Text('Favoritos'),
       ),
-      body: widget.personajesFavoritos.isEmpty
+      body: variablesGlobales.personajesFavoritos.isEmpty
           ? const Center(
               child: Text('No hay personajes en favoritos'),
             )
           : ListView.builder(
-              itemCount: widget.personajesFavoritos.length,
+              itemCount: variablesGlobales.personajesFavoritos.length,
               itemBuilder: (context, index) {
-                final personajeA = widget.personajesFavoritos[index]; // Ahora es un objeto Personaje
+                final personajeA = variablesGlobales.personajesFavoritos[index]; // Ahora es un objeto Personaje
                 return ListTile(
                   title: Text(personajeA.nombre), // Accede a nombre
                   onTap: () {

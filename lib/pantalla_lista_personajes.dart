@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter_app_one/ficha_personaje.dart';
 import 'package:flutter_app_one/personaje.dart';
 import 'package:flutter_app_one/pantalla_personajes_favoritos.dart';
+import 'package:flutter_app_one/variables_globales.dart';
 import 'package:http/http.dart' as http;
 
 class PantallaListaPersonajes extends StatefulWidget {
@@ -15,8 +16,6 @@ class PantallaListaPersonajes extends StatefulWidget {
 class _PantallaListaPersonajesState extends State<PantallaListaPersonajes> {
 
   List<Personaje> arrayPersonajes = []; //Array vacio para llenarlo con personajes.
-
-  List<Personaje> personajesFavoritos = []; // Lista de favoritos.
 
   bool cargando = true;
 
@@ -31,7 +30,7 @@ class _PantallaListaPersonajesState extends State<PantallaListaPersonajes> {
    */
   void descargarPersonajes() async {
     final url = Uri.parse("https://anapioficeandfire.com/api/characters?page=1&pageSize=50");
-
+    
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
@@ -59,9 +58,9 @@ class _PantallaListaPersonajesState extends State<PantallaListaPersonajes> {
    Función para agregar a favoritos.
    */
   void agregarFavoritos(Personaje personaje) {
-    if (!personajesFavoritos.contains(personaje)) {
+    if (!variablesGlobales.personajesFavoritos.contains(personaje)) {
       setState(() {
-        personajesFavoritos.add(personaje);
+        variablesGlobales.personajesFavoritos.add(personaje);
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -83,14 +82,14 @@ class _PantallaListaPersonajesState extends State<PantallaListaPersonajes> {
               final result = await Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => PantallaPersonajesFavoritos(personajesFavoritos: personajesFavoritos, title: '',),
+                  builder: (context) => PantallaPersonajesFavoritos(title: 'pepito',),
                 ),
               );
 
               // Si la lista de favoritos cambia, actualiza la lista
               if (result != null && result is List<Personaje>) {
                 setState(() {
-                  personajesFavoritos = result;
+                  variablesGlobales.personajesFavoritos = result;
                 });
               }
             },
@@ -104,7 +103,7 @@ class _PantallaListaPersonajesState extends State<PantallaListaPersonajes> {
               separatorBuilder: (context, index) => const Divider(color: Colors.deepPurple),
               itemBuilder: (context, index) {
                 final personajeElegido = arrayPersonajes[index];
-                final esFavorito = personajesFavoritos.contains(personajeElegido);
+                final esFavorito = variablesGlobales.personajesFavoritos.contains(personajeElegido);
                 return ListTile(
                   title: Text(personajeElegido.nombre),
                   trailing: IconButton(

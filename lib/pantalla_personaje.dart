@@ -14,7 +14,7 @@ import 'package:http/http.dart' as http;
 
 class PantallaPersonaje extends StatefulWidget {
   const PantallaPersonaje({super.key, required String title});
-
+  
   @override
   State<PantallaPersonaje> createState() => _PantallaPersonajeState();
 }
@@ -25,7 +25,6 @@ class _PantallaPersonajeState extends State<PantallaPersonaje> {
     @override
     void initState() {
       descargarPersonajes();
-      print("entra al void d pantalla_personaje");
       super.initState();
     }
 
@@ -42,9 +41,7 @@ class _PantallaPersonajeState extends State<PantallaPersonaje> {
       Aquí descargamos los personajes de la API 
   */
     void descargarPersonajes() async {
-
-      print("Entro a descargarPersonaje");
-
+      
       final url = Uri.parse("https://anapioficeandfire.com/api/characters/${randomNumber()}");
       final response = await http.get(url);
       print(response.statusCode);
@@ -76,7 +73,7 @@ class _PantallaPersonajeState extends State<PantallaPersonaje> {
   */
     void mostrarListaFavoritos() {
       Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => const PantallaPersonajesFavoritos(title: '', personajesFavoritos: [],)));
+          .push(MaterialPageRoute(builder: (context) => const PantallaPersonajesFavoritos(title: 'Hola que tal')));
     }
 
     @override
